@@ -10,7 +10,7 @@ public class MyController {
   //==============================================================================
   // HELLO
   //==============================================================================
-  @PreAuthorize("hasRole('USER') AND @customAuthenticationService.authenticate(authentication)")
+  @PreAuthorize("hasRole('USER') AND @customAuthorizationService.authorize(authentication)")
   @RequestMapping("/Hello")
   public String hello() {
     return "Hello from Controller";

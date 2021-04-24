@@ -5,12 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationService {
+public class CustomAuthorizationService {
 
   //==============================================================================
-  // AUTHENTICATE
+  // AUTHORIZE
   //==============================================================================
-  public boolean authenticate(Authentication authentication) {
+  public boolean authorize(Authentication authentication) {
 
     //GET USERNAME
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
