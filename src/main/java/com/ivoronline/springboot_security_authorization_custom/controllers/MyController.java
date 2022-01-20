@@ -11,8 +11,8 @@ public class MyController {
   // HELLO
   //==============================================================================
   @PreAuthorize("hasRole('USER') AND @customAuthorizationService.authorize(authentication)")
-  @RequestMapping("/Hello")
-  public String hello() {
+  @RequestMapping("Hello")
+  String hello() {
     return "Hello from Controller";
   }
 

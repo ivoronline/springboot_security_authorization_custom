@@ -2,6 +2,7 @@ package com.ivoronline.springboot_security_authorization_custom.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,19 +20,20 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   //=================================================================
-  // USER DETAILS SERVICE
+  // CONFIGURE (AuthenticationManagerBuilder )
   //=================================================================
-  @Bean
   @Override
-  protected UserDetailsService userDetailsService() {
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.inMemoryAuthentication().withUser("myuser" ).password("myuserpassword" ).roles("USER" );
+    auth.inMemoryAuthentication().withUser("myadmin").password("myadminpassword").roles("ADMIN");
+  }
 
-    //CREATE USERS
-    UserDetails myuser  = User.withUsername("myuser" ).password("myuserpassword" ).roles("USER" ).build();
-    UserDetails myadmin = User.withUsername("myadmin").password("myadminpassword").roles("ADMIN").build();
-
-    //STORE USERS
-    return new InMemoryUserDetailsManager(myuser, myadmin);
-
+  //=================================================================
+  // CONFIGURE (HttpSecurity)
+  //=================================================================
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity.formLogin();
   }
 
   //=======================================================================
@@ -40,14 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   PasswordEncoder passwordEncoder() {
     return NoOpPasswordEncoder.getInstance();
-  }
-
-  //=================================================================
-  // CONFIGURE
-  //=================================================================
-  @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.formLogin();
   }
 
 }
